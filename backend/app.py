@@ -1,27 +1,27 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import pandas as pd
+import json
 
 app = Flask(__name__)
 CORS(app)
 
-
-# Load the CSV file into a DataFrame once
-data_df = pd.read_csv("newstartups.csv", encoding="utf-8")
+# Load the JSON data into memory once
+with open("csvjson.json", "r", encoding="utf-8") as file:
+    data = json.load(file)
 
 
 @app.route("/search", methods=["GET"])
 def search():
     query = request.args.get("q").lower()
+    matches = []
 
-    # Use pandas to filter rows that contain the query string in any cell
-    mask = data_df.applymap(lambda x: query in str(x).lower()).any(axis=1)
-    filtered_df = data_df[mask]
+    # Iterate through the JSON data to find matches
+    for item in data:
+        if any(query in str(value).lower() for value in item.values()):
+            matches.append(item)
 
-    # Convert the filtered DataFrame to a list of dictionaries for JSON serialization
-    results = filtered_df.to_dict(orient="records")
-
-    return jsonify(results)
+    return jsonify(matches)
 
 
 # @app.route("/trending")
