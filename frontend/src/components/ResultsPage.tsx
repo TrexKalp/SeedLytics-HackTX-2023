@@ -8,6 +8,10 @@ import {
   Center,
   Spinner,
   Text,
+  Image,
+  VStack,
+  HStack,
+  Tag,
 } from "@chakra-ui/react";
 
 const ResultsPage = () => {
@@ -57,11 +61,28 @@ const ResultsPage = () => {
               padding={3}
               boxShadow="sm"
             >
-              {Object.entries(item).map(([key, value]) => (
-                <p key={key}>
-                  <strong>{key}:</strong> {value}
-                </p>
-              ))}
+              {item.Logo && (
+                <Image
+                  src={item.Logo}
+                  alt={`${item.Company || "Company"} logo`}
+                  mb={4}
+                  boxSize="100px"
+                  objectFit="contain"
+                />
+              )}
+              <VStack align="start" spacing={2}>
+                {Object.entries(item).map(
+                  ([key, value]) =>
+                    key !== "Logo" && (
+                      <HStack key={key} spacing={4}>
+                        <Tag size="lg" variant="outline" colorScheme="blue">
+                          {key}
+                        </Tag>
+                        <Text>{value}</Text>
+                      </HStack>
+                    )
+                )}
+              </VStack>
             </ListItem>
           ))}
         </List>
