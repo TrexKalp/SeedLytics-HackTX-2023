@@ -7,7 +7,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Load the JSON data into memory once
-with open("startups.json", "r", encoding="utf-8") as file:
+with open("cleaned_startup_data.json", "r", encoding="utf-8") as file:
     data = json.load(file)
 
 

@@ -3,8 +3,6 @@ import {
   InputGroup,
   InputRightElement,
   Button,
-  Box,
-  Heading,
   Center,
   Image,
   Text,
@@ -15,38 +13,35 @@ import { SearchIcon } from "@chakra-ui/icons";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import seedlytics from "../assets/seedlytics.png";
-import TrendingStartups from "./TrendingStartups"; // Ensure the path is correct
 
-const HomePage = () => {
-  const [query, setQuery] = useState("");
-  const [suggestions, setSuggestions] = useState([]); // Store suggestions
+const HomePage: React.FC = () => {
+  const [query, setQuery] = useState<string>("");
+  const [suggestions, setSuggestions] = useState<string[]>([]); // Typing the suggestions
   const navigate = useNavigate();
 
-  const handleSearch = () => {
+  const handleSearch = (): void => {
     navigate(`/results?q=${query}`);
   };
 
-  const fetchSuggestions = (query) => {
-    // Simulate fetching suggestions (you'd replace this with actual API calls)
+  const fetchSuggestions = (query: string): string[] => {
     const mockSuggestions = ["Airbnb", "Aggie", "Suggestion 3"];
     return mockSuggestions.filter((suggestion) =>
       suggestion.toLowerCase().includes(query.toLowerCase())
     );
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const newQuery = e.target.value;
     setQuery(newQuery);
-
     if (newQuery) {
       const newSuggestions = fetchSuggestions(newQuery);
       setSuggestions(newSuggestions);
     } else {
-      setSuggestions([]); // Clear suggestions when query is empty
+      setSuggestions([]);
     }
   };
 
-  const handleKeyPress = (e) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === "Enter") {
       handleSearch();
     }
@@ -65,7 +60,7 @@ const HomePage = () => {
             placeholder="Search..."
             value={query}
             onChange={handleInputChange}
-            onKeyPress={handleKeyPress} // Add this line to listen for Enter key press
+            onKeyPress={handleKeyPress}
             variant="filled"
           />
           <InputRightElement width="4.5rem">
@@ -82,8 +77,8 @@ const HomePage = () => {
         {suggestions.length > 0 && (
           <VStack
             mt={2}
-            spacing={2} // Add spacing between suggestions
-            p={2} // Add padding for suggestion box
+            spacing={2}
+            p={2}
             border="1px"
             borderColor="gray.300"
             rounded="md"
@@ -96,13 +91,13 @@ const HomePage = () => {
                 cursor="pointer"
                 _hover={{ fontWeight: "bold", bg: "gray.100" }}
                 onClick={() => {
-                  setQuery(suggestion);
+                  setQuery(suggestion); // <- This sets the search to the clicked suggestion
                   setSuggestions([]);
-                  handleSearch(); // Trigger search when a suggestion is clicked
+                  handleSearch();
                 }}
-                h="2rem" // Set a fixed height for each suggestion
-                lineHeight="2rem" // Center the text vertically within the suggestion box
-                pl={2} // Add left padding for better alignment
+                h="2rem"
+                lineHeight="2rem"
+                pl={2}
               >
                 {suggestion}
               </Text>
