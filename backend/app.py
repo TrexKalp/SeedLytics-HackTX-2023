@@ -1,5 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from cleaner import location, money_raised
+from csvjson import 
 
 app = Flask(__name__)
 CORS(app)
@@ -8,11 +10,10 @@ CORS(app)
 @app.route("/search", methods=["GET"])
 def search():
     query = request.args.get("q")
-
-    # Sample data for demonstration.
-    data = ["apple", "banana", "cherry", "date", "fig", "grape"]
-    results = [item for item in data if query.lower() in item.lower()]
-
+    
+    # Filter startups based on the query
+    results = [startup for startup in startup_data if query.lower() in startup["Company"].lower()]
+    
     return jsonify(results)
 
 
