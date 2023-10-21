@@ -80,32 +80,34 @@ const HomePage = () => {
           </InputRightElement>
         </InputGroup>
         {suggestions.length > 0 && (
-          <Box
+          <VStack
             mt={2}
+            spacing={2} // Add spacing between suggestions
+            p={2} // Add padding for suggestion box
             border="1px"
             borderColor="gray.300"
             rounded="md"
-            position="absolute"
-            zIndex="1"
             width="100%"
+            boxShadow="md"
           >
-            <VStack align="start" p={2}>
-              {suggestions.map((suggestion, index) => (
-                <Text
-                  key={index}
-                  cursor="pointer"
-                  _hover={{ fontWeight: "bold" }}
-                  onClick={() => {
-                    setQuery(suggestion);
-                    setSuggestions([]);
-                    handleSearch(); // Trigger search when a suggestion is clicked
-                  }}
-                >
-                  {suggestion}
-                </Text>
-              ))}
-            </VStack>
-          </Box>
+            {suggestions.map((suggestion, index) => (
+              <Text
+                key={index}
+                cursor="pointer"
+                _hover={{ fontWeight: "bold", bg: "gray.100" }}
+                onClick={() => {
+                  setQuery(suggestion);
+                  setSuggestions([]);
+                  handleSearch(); // Trigger search when a suggestion is clicked
+                }}
+                h="2rem" // Set a fixed height for each suggestion
+                lineHeight="2rem" // Center the text vertically within the suggestion box
+                pl={2} // Add left padding for better alignment
+              >
+                {suggestion}
+              </Text>
+            ))}
+          </VStack>
         )}
       </VStack>
     </Center>
