@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 
 const ResultsPage = () => {
-  const [results, setResults] = useState<string[]>([]);
+  const [results, setResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const location = useLocation();
   const query = new URLSearchParams(location.search).get("q") || "";
@@ -57,7 +57,11 @@ const ResultsPage = () => {
               padding={3}
               boxShadow="sm"
             >
-              {item}
+              {Object.entries(item).map(([key, value]) => (
+                <p key={key}>
+                  <strong>{key}:</strong> {value}
+                </p>
+              ))}
             </ListItem>
           ))}
         </List>

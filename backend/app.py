@@ -7,20 +7,19 @@ CORS(app)
 
 
 # Load the CSV file into a DataFrame once
-data_df = pd.read_csv("updatedstartups.csv", encoding="utf-8")
+data_df = pd.read_csv("newstartups.csv", encoding="utf-8")
 
 
 @app.route("/search", methods=["GET"])
 def search():
     query = request.args.get("q").lower()
 
-    # Use pandas to filter rows that contain the query string
-    filtered_df = data_df[
-        data_df.apply(
-            lambda row: row.astype(str).str.lower().str.contains(query).any(), axis=1
-        )
-    ]
-    results = filtered_df.values.tolist()
+    # Use pandas to filter rows that contain the query string in any cell
+    mask = data_df.applymap(lambda x: query in str(x).lower()).any(axis=1)
+    filtered_df = data_df[mask]
+
+    # Convert the filtered DataFrame to a list of dictionaries for JSON serialization
+    results = filtered_df.to_dict(orient="records")
 
     return jsonify(results)
 
