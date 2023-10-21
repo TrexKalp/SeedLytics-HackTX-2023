@@ -46,6 +46,12 @@ const HomePage = () => {
     }
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
   return (
     <Center h="100vh" w="100vw">
       <VStack spacing={6} w="500px">
@@ -59,6 +65,7 @@ const HomePage = () => {
             placeholder="Search..."
             value={query}
             onChange={handleInputChange}
+            onKeyPress={handleKeyPress} // Add this line to listen for Enter key press
             variant="filled"
           />
           <InputRightElement width="4.5rem">
@@ -91,6 +98,7 @@ const HomePage = () => {
                   onClick={() => {
                     setQuery(suggestion);
                     setSuggestions([]);
+                    handleSearch(); // Trigger search when a suggestion is clicked
                   }}
                 >
                   {suggestion}
