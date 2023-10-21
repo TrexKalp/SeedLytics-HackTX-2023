@@ -7,7 +7,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Load the JSON data into memory once
-with open("csvjson.json", "r", encoding="utf-8") as file:
+with open("startups.json", "r", encoding="utf-8") as file:
     data = json.load(file)
 
 
@@ -32,5 +32,5 @@ def search():
 #     return jsonify(data)
 
 
-# if __name__ == "__main__":
-#     app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)
