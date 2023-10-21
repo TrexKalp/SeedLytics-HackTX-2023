@@ -1,46 +1,37 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from cleaner import location, money_raised
-from csvjson import startups
+import pandas as pd
 
 app = Flask(__name__)
 CORS(app)
 
 
+# Load the CSV file into a DataFrame once
+data_df = pd.read_csv("updatedstartups.csv", encoding="utf-8")
+
+
 @app.route("/search", methods=["GET"])
 def search():
-    query = request.args.get("q")
-    
-    # Filter startups based on the query
-    results = [startup for startup in startups if query.lower() in startup["Company"].lower()]
-    
+    query = request.args.get("q").lower()
+
+    # Use pandas to filter rows that contain the query string
+    filtered_df = data_df[
+        data_df.apply(
+            lambda row: row.astype(str).str.lower().str.contains(query).any(), axis=1
+        )
+    ]
+    results = filtered_df.values.tolist()
+
     return jsonify(results)
 
 
-@app.route("/trending")
-def trending():
-    # This is a placeholder URL. Replace with an actual source if you have one.
-    URL = "https://explodingtopics.com/blog/fast-growing-companies"
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
-    }
-    response = requests.get(URL, headers=headers)
-
-    soup = BeautifulSoup(response.content, "html.parser")
-    # The following selectors are placeholders. You'll need to adjust based on the site structure.
-    startup_elements = soup.select(".startup")
-
-    startups = []
-    for elem in startup_elements:
-        name = elem.select_one(".name").text
-        description = elem.select_one(".description").text
-        imageUrl = elem.select_one(".image").get("src")
-        startups.append(
-            {"name": name, "description": description, "imageUrl": imageUrl}
-        )
-
-    return jsonify(startups)
+# @app.route("/trending")
+# def trending():
+#     url = "https://newsdata.io/api/1/news?apikey=pub_316009238764d6a9b6eeeecd6bf97b43121cd&q=trending%20startup%20news&language=en"
+#     response = requests.get(url)
+#     data = response.json()
+#     return jsonify(data)
 
 
-if __name__ == "__main__":
-    app.run(debug=True)
+# if __name__ == "__main__":
+#     app.run(debug=True)
