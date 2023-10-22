@@ -24,10 +24,114 @@ const HomePage: React.FC = () => {
   };
 
   const fetchSuggestions = (query: string): string[] => {
-    const mockSuggestions = ["Airbnb", "Aggie", "Suggestion 3"];
-    return mockSuggestions.filter((suggestion) =>
+    const mockSuggestions = [
+      "Ondine Biomedical Inc.",
+      "One Inc.",
+      "One Block Off the Grid (1BOG)",
+      "offerdunia.in",
+      "H2O.ai",
+      "Hello Alfred",
+      "Hornetsecurity",
+      "Happy Retailer",
+      "Beijing 1000CHI Software Technology",
+      "Beans Around",
+      "Babyscripts",
+      "Basecamp",
+      "ZenChef",
+      "Zentri",
+      "Zibby",
+      "ZABC",
+      "Redox",
+      "ResponseTap",
+      "Robinhood",
+      "Rewalk Robotics",
+      "Cliptone",
+      "CAD CAD Design Services",
+      "ChartRequest",
+      "CtrlShift",
+      "yelster digital gmbh (former 123people)",
+      "Yago",
+      "Youxigu",
+      "YuanV",
+      "XDN/3Crowd Technologies",
+      "Xplornet",
+      "Xuehuile",
+      "Xunda Pharmaceutical",
+      "Nimble VR",
+      "NewHound",
+      "Nano Think",
+      "NetPosa Technologies",
+      "Loctronix",
+      "Lynq",
+      "Leroy Brothers",
+      "Longxun Changtian Technology",
+      "Shoppable",
+      "Sportskeeda",
+      "Snapask",
+      "Sentrant Security",
+      "Applauze",
+      "A Plus",
+      "A-76 Technologies",
+      "A & A Custom Cornhole",
+      "Tunepresto",
+      "The Activity Exchange (AchieveMint)",
+      "The Allstate Corporation",
+      "Targazyme",
+      "Web Reservations International",
+      "WorkBright",
+      "Workspace",
+      "Wallis & Holdings",
+      "FashionAde.com (Abundant Closet)",
+      "FOOTBEAT & AVEX Health",
+      "Finxera",
+      "Fengxiafei",
+      "Inherited Health",
+      "InboxQ",
+      "iTechshark",
+      "Inforgence Inc.",
+      "Pegasus Imaging Corporation",
+      "Pom",
+      "PrivacyCheq / AgeCheq",
+      "PostRank",
+      "Global Ad Source",
+      "Gift Connect",
+      "GridEdge Networks",
+      "Gateway Media",
+      "MaestroIQ",
+      "Motiva",
+      "MustSee guides",
+      "Movvo, S.A.",
+      "Dokkankom",
+      "Driversiti",
+      "Desk",
+      "DApps Fund",
+      "EMBI",
+      "Eargo",
+      "EVERYWARE",
+      "Easpring Material Technology",
+      "QDEGA Loyalty Solutions GmbH",
+      "QuasarDB",
+      "Quire",
+      "Quotient Technology",
+      "USTC iFLYTEK Science and Technology",
+      "Union Cast Network Technology",
+      "Uphold",
+      "UNIFi Software",
+      "Just Sing It",
+      "JOYsee Interaction Science and Technology",
+      "Jobstore.com",
+      "just.me 2014 Inc",
+      "Kingtop",
+      "Kylin Network",
+      "KakaMobi",
+      "kalidea",
+    ];
+
+    const filteredSuggestions = mockSuggestions.filter((suggestion) =>
       suggestion.toLowerCase().includes(query.toLowerCase())
     );
+
+    return filteredSuggestions.slice(0, 8);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -52,6 +156,9 @@ const HomePage: React.FC = () => {
       <VStack spacing={6} w="500px">
         <Flex direction="column" align="center" justify="center" mb={2}>
           <Image src={seedlytics} alt="seedlytics logo" />
+          <Text fontFamily={"sans-serif"}>
+            Sowing Insights, Harvesting Success: The Startup Data Destination.
+          </Text>
         </Flex>
         <InputGroup size="lg">
           <Input
@@ -89,11 +196,11 @@ const HomePage: React.FC = () => {
               <Text
                 key={index}
                 cursor="pointer"
-                _hover={{ fontWeight: "bold", bg: "gray.100" }}
+                _hover={{ fontWeight: "bold", bg: "gray.700" }}
                 onClick={() => {
                   setQuery(suggestion); // <- This sets the search to the clicked suggestion
                   setSuggestions([]);
-                  handleSearch();
+                  // handleSearch();
                 }}
                 h="2rem"
                 lineHeight="2rem"
